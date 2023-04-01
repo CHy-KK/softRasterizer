@@ -1,4 +1,6 @@
-﻿  main.cpp
+﻿  Model.cpp
+D:\WORK\CG\softRasterizer\softRasterizer\Model.h(43,21): warning C4101: “itrash”: 未引用的局部变量
+  main.cpp
 D:\WORK\CG\softRasterizer\softRasterizer\Model.h(43,21): warning C4101: “itrash”: 未引用的局部变量
 D:\WORK\CG\softRasterizer\softRasterizer\main.cpp(24,14): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
 D:\WORK\CG\softRasterizer\softRasterizer\main.cpp(25,14): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
@@ -92,4 +94,5 @@ D:\WORK\CG\softRasterizer\softRasterizer\tgaimage.h(56,12): warning C4244: “=�
 D:\WORK\CG\softRasterizer\softRasterizer\main.cpp(161): message : 查看对正在编译的函数 模板 实例化“TGAColor::TGAColor<float>(const Vec3<float> &,unsigned char)”的引用
 D:\WORK\CG\softRasterizer\softRasterizer\tgaimage.h(57,12): warning C4244: “=”: 从“float”转换到“unsigned char”，可能丢失数据
 D:\WORK\CG\softRasterizer\softRasterizer\tgaimage.h(58,12): warning C4244: “=”: 从“float”转换到“unsigned char”，可能丢失数据
+  正在生成代码...
   softRasterizer.vcxproj -> D:\WORK\CG\softRasterizer\Debug\softRasterizer.exe

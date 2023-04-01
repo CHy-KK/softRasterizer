@@ -145,9 +145,9 @@ int main(int argc, char** argv) {
 
 	for (int i = 0; i < head.nfaces(); i++) {
 		auto f = head.face(i);
-		Vec3f v1 = (head.vert(f[0]) + Vec3f_one) / 2;
-		Vec3f v2 = (head.vert(f[1]) + Vec3f_one) / 2;
-		Vec3f v3 = (head.vert(f[2]) + Vec3f_one) / 2;
+		Vec3f v1 = (head.vert(f[0].x) + Vec3f_one) / 2;
+		Vec3f v2 = (head.vert(f[1].x) + Vec3f_one) / 2;
+		Vec3f v3 = (head.vert(f[2].x) + Vec3f_one) / 2;
 		triangle(v1, v2, v3, image, red);
 	}
 
