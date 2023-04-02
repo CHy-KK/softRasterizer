@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="mathSR.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="Rasterizer.h" />
     <ClInclude Include="tgaimage.h" />
     <ClInclude Include="Vec.h" />
   </ItemGroup>
@@ -148,6 +149,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mathSR.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Rasterizer.cpp" />
     <ClCompile Include="tgaimage.cpp" />
     <ClCompile Include="Vec.cpp" />
   </ItemGroup>
