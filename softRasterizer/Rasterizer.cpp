@@ -28,10 +28,10 @@ void Rasterizer::triangle(const vertex& vert1, const vertex& vert2, const vertex
 	params[3] = v2.y - v3.y;
 	params[4] = params[0] * params[3] - params[2] * params[1];
 
-	int minx = min(v1.x, min(v2.x, v3.x));
-	int maxx = max(v1.x, max(v2.x, v3.x));
-	int miny = min(v1.y, min(v2.y, v3.y));
-	int maxy = max(v1.y, max(v2.y, v3.y));
+	int minx = max(0, min(v1.x, min(v2.x, v3.x)));
+	int maxx = min(width, max(v1.x, max(v2.x, v3.x)));
+	int miny = max(0, min(v1.y, min(v2.y, v3.y)));
+	int maxy = min(height, max(v1.y, max(v2.y, v3.y)));
 	for (int y = miny; y < maxy; y++) {
 		for (int x = minx; x < maxx; x++) {
 			Vec2f p(x, y);
@@ -42,14 +42,14 @@ void Rasterizer::triangle(const vertex& vert1, const vertex& vert2, const vertex
 				for (int i = 0; i < 4; i++) {
 					if (barycentric(params, v3, p + x4MSAAoffset[i], u, v)) {
 						float w = 1 - u - v;
-						Vec3f pos = u * vert1.position + v * vert2.position + w * vert3.position;
+						Vec3f pos = Vec3f(u * vert1.position + v * vert2.position + w * vert3.position);
 						Vec2f uv = u * vert1.uv + v * vert2.uv + w * vert3.uv;
 						Vec3f n = u * vert1.normal + v * vert2.normal + w * vert3.normal;
 						if (!sample) {
-							colorVec = shaderNormal(pos, uv, n) * 255;
+							colorVec = shaderBaseLight(pos, uv, n) * 255;
 							sample = true;
 						}
-						if (pos.z > zBuffer[(x + y * width) * 4 + i]) {
+						if (pos.z > 0 && pos.z < zBuffer[(x + y * width) * 4 + i]) {
 							frameBuffer[(x + y * width) * 4 + i] = colorVec;
 							zBuffer[(x + y * width) * 4 + i] = pos.z;
 						}

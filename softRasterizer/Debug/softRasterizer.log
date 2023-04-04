@@ -1,97 +1,16 @@
-﻿  Rasterizer.cpp
-D:\WORK\CG\softRasterizer\softRasterizer\Rasterizer.cpp(15,54): warning C4244: “参数”: 从“T”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-          and
-          [
-              T=int
-          ]
-D:\WORK\CG\softRasterizer\softRasterizer\Rasterizer.cpp(15,28): warning C4244: “参数”: 从“T”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-          and
-          [
-              T=int
-          ]
-D:\WORK\CG\softRasterizer\softRasterizer\Rasterizer.cpp(16,54): warning C4244: “参数”: 从“T”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-          and
-          [
-              T=int
-          ]
-D:\WORK\CG\softRasterizer\softRasterizer\Rasterizer.cpp(16,28): warning C4244: “参数”: 从“T”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-          and
-          [
-              T=int
-          ]
-D:\WORK\CG\softRasterizer\softRasterizer\Rasterizer.cpp(17,54): warning C4244: “参数”: 从“T”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-          and
-          [
-              T=int
-          ]
-D:\WORK\CG\softRasterizer\softRasterizer\Rasterizer.cpp(17,28): warning C4244: “参数”: 从“T”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-          and
-          [
-              T=int
-          ]
-D:\WORK\CG\softRasterizer\softRasterizer\Rasterizer.cpp(25,19): warning C4244: “=”: 从“T”转换到“float”，可能丢失数据
-          with
-          [
-              T=int
-          ]
-D:\WORK\CG\softRasterizer\softRasterizer\Rasterizer.cpp(26,19): warning C4244: “=”: 从“T”转换到“float”，可能丢失数据
-          with
-          [
-              T=int
-          ]
-D:\WORK\CG\softRasterizer\softRasterizer\Rasterizer.cpp(27,19): warning C4244: “=”: 从“T”转换到“float”，可能丢失数据
-          with
-          [
-              T=int
-          ]
-D:\WORK\CG\softRasterizer\softRasterizer\Rasterizer.cpp(28,19): warning C4244: “=”: 从“T”转换到“float”，可能丢失数据
-          with
-          [
-              T=int
-          ]
-D:\WORK\CG\softRasterizer\softRasterizer\Rasterizer.cpp(37,15): warning C4244: “参数”: 从“int”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-D:\WORK\CG\softRasterizer\softRasterizer\Rasterizer.cpp(37,12): warning C4244: “参数”: 从“int”转换到“T”，可能丢失数据
-          with
-          [
-              T=float
-          ]
-D:\WORK\CG\softRasterizer\softRasterizer\tgaimage.h(56,12): warning C4244: “=”: 从“float”转换到“unsigned char”，可能丢失数据
-D:\WORK\CG\softRasterizer\softRasterizer\Rasterizer.cpp(79): message : 查看对正在编译的函数 模板 实例化“TGAColor::TGAColor<float>(const Vec3<float> &,unsigned char)”的引用
-D:\WORK\CG\softRasterizer\softRasterizer\tgaimage.h(57,12): warning C4244: “=”: 从“float”转换到“unsigned char”，可能丢失数据
-D:\WORK\CG\softRasterizer\softRasterizer\tgaimage.h(58,12): warning C4244: “=”: 从“float”转换到“unsigned char”，可能丢失数据
+﻿  Camera.cpp
+D:\WORK\CG\softRasterizer\softRasterizer\GameObject.h(20,15): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+D:\WORK\CG\softRasterizer\softRasterizer\GameObject.h(21,14): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+D:\WORK\CG\softRasterizer\softRasterizer\GameObject.h(22,15): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+D:\WORK\CG\softRasterizer\softRasterizer\Camera.cpp(34,17): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
   main.cpp
-D:\WORK\CG\softRasterizer\softRasterizer\Model.h(44,21): warning C4101: “itrash”: 未引用的局部变量
-D:\WORK\CG\softRasterizer\softRasterizer\main.cpp(21,14): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
-D:\WORK\CG\softRasterizer\softRasterizer\main.cpp(22,14): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
-D:\WORK\CG\softRasterizer\softRasterizer\main.cpp(35,18): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
-D:\WORK\CG\softRasterizer\softRasterizer\main.cpp(47,15): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+D:\WORK\CG\softRasterizer\softRasterizer\GameObject.h(20,15): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+D:\WORK\CG\softRasterizer\softRasterizer\GameObject.h(21,14): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+D:\WORK\CG\softRasterizer\softRasterizer\GameObject.h(22,15): warning C4244: “初始化”: 从“double”转换到“float”，可能丢失数据
+D:\WORK\CG\softRasterizer\softRasterizer\Model.h(48,21): warning C4101: “itrash”: 未引用的局部变量
+D:\WORK\CG\softRasterizer\softRasterizer\main.cpp(17,14): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
+D:\WORK\CG\softRasterizer\softRasterizer\main.cpp(18,14): warning C4244: “初始化”: 从“int”转换到“float”，可能丢失数据
+D:\WORK\CG\softRasterizer\softRasterizer\main.cpp(31,18): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
+D:\WORK\CG\softRasterizer\softRasterizer\main.cpp(43,15): warning C4244: “参数”: 从“float”转换到“int”，可能丢失数据
   正在生成代码...
   softRasterizer.vcxproj -> D:\WORK\CG\softRasterizer\Debug\softRasterizer.exe

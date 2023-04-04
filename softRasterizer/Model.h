@@ -4,18 +4,22 @@
 #include <iostream>
 #include <vector>
 #include "Vec.h"
+#include "Matrix.h"
 #include <fstream>
 #include <sstream>
+#include "GameObject.h"
 using namespace std;
 
 
-class Model
+class Model: public GameObject
 {
 private:
     vector<Vec3f> vertices;
     vector<Vec3f> normals;
     vector<Vec2f> uvs;
 	vector<vector<Vec3i>> faces;    // faces 存储每个三角面的三个顶点，每个顶点使用一个vec3i来表示使用的：模型坐标index/uv坐标index/法线index
+    
+
 public:
 	Model(const char* filename) {
 		std::ifstream in; 
@@ -58,7 +62,12 @@ public:
     Vec2f uv(int i) { return uvs[i]; }
     Vec3f normal(int i) { return normals[i]; }
     vector<Vec3i> face(int i) { return faces[i]; }
+
+    //virtual Matrix transformMatrix();
+    
 };
+
+
 
 #endif // 
 
