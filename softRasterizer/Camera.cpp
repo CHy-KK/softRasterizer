@@ -37,8 +37,8 @@ Matrix Camera::perspectiveMatrix()
 	return Matrix({
 		{1.f / halfW,			0,				   0,					0},
 		{		   0, 1.f / halfH,				   0,					0},
-		{		   0,			0, (n + f) / (n - f), -2 * n * f / (f - n)},
-		{		   0,			0,				   -1,					0}
+		{		   0,			0, (n + f) / (n - f), 2 * n * f / (n - f)},
+		{		   0,			0,				  -1,					0}
 	});
 }
 

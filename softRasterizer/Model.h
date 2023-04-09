@@ -35,12 +35,12 @@ public:
                 iss >> trash >> f1 >> f2 >> f3;
                 vertices.emplace_back(f1, f2, f3);
             }
-            else if (!line.compare(0, 2, "vt")) {
-                iss >> trash >> f1 >> f2;
+            else if (!line.compare(0, 4, "vt  ")) {
+                iss >> trash >> trash >> f1 >> f2 >> f3;
                 uvs.emplace_back(f1, f2);
             }
-            else if (!line.compare(0, 2, "vn")) {
-                iss >> trash >> f1 >> f2 >> f3;
+            else if (!line.compare(0, 4, "vn  ")) {
+                iss >> trash >> trash >> f1 >> f2 >> f3;
                 normals.emplace_back(f1, f2 ,f3);
             }
             else if (!line.compare(0, 2, "f ")) {
@@ -56,12 +56,12 @@ public:
         std::cerr << "# v# " << vertices.size() << " f# " << faces.size() << std::endl;
 	}
 
-    int nverts() { return vertices.size(); }
-    int nfaces() { return faces.size(); }
-    Vec3f vert(int i) { return vertices[i]; }
-    Vec2f uv(int i) { return uvs[i]; }
-    Vec3f normal(int i) { return normals[i]; }
-    vector<Vec3i> face(int i) { return faces[i]; }
+    int nverts() const { return vertices.size(); }
+    int nfaces() const { return faces.size(); }
+    Vec3f vert(int i) const { return vertices[i]; }
+    Vec2f uv(int i) const { return uvs[i]; }
+    Vec3f normal(int i) const { return normals[i]; }
+    vector<Vec3i> face(int i) const { return faces[i]; }
 
     //virtual Matrix transformMatrix();
     

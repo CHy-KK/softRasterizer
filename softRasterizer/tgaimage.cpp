@@ -259,6 +259,13 @@ TGAColor TGAImage::get(int x, int y) {
 	return TGAColor(data + (x + y * width) * bytespp, bytespp);
 }
 
+Vec4f TGAImage::sample(Vec2f uv)
+{
+	uv.x = (uv.x - floor(uv.x)) * width;
+	uv.y = (1.f - (uv.y - floor(uv.y))) * height;
+	return get(uv.x, uv.y).toVec4f();
+}
+
 bool TGAImage::set(int x, int y, TGAColor c) {
 	if (!data || x < 0 || y < 0 || x >= width || y >= height) {
 		return false;

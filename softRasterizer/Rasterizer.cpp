@@ -1,5 +1,36 @@
 #include "Rasterizer.h"
 
+Rasterizer* Rasterizer::renderer = nullptr;
+
+Rasterizer::Rasterizer(int w, int h, bool msaa) :width(w), height(h), useMSAA(msaa) {
+	if (useMSAA) {
+		frameBuffer.resize(width * height * 4, Vec4f(0, 0, 0, 0));
+		zBuffer.resize(width * height * 4, 1);
+	}
+	else {
+		frameBuffer.resize(width * height, Vec4f(0, 0, 0, 0));
+		zBuffer.resize(width * height, 1);
+	}
+}
+
+Rasterizer* Rasterizer::GetInstance(int w, int h, bool msaa)
+{
+	if (renderer == nullptr)
+		renderer = new Rasterizer(w, h, msaa);
+	return renderer;
+}
+
+void Rasterizer::Render(const Model& m)
+{
+	for (int i = 0; i < m.nfaces(); i++) {
+		auto f = m.face(i);
+		vout v1 = shader->vertex(vin(Vec4f(m.vert(f[0].x), 1), m.uv(f[0].y), m.normal(f[0].z)));
+		vout v2 = shader->vertex(vin(Vec4f(m.vert(f[1].x), 1), m.uv(f[1].y), m.normal(f[1].z)));
+		vout v3 = shader->vertex(vin(Vec4f(m.vert(f[2].x), 1), m.uv(f[2].y), m.normal(f[2].z)));
+		renderer->triangle(v1, v2, v3);
+	}
+}
+
 bool Rasterizer::barycentric(float params[], const Vec2i& v3, const Vec2f& p, float& u, float& v)
 {
 	float r1 = p.x - v3.x;
@@ -9,12 +40,18 @@ bool Rasterizer::barycentric(float params[], const Vec2i& v3, const Vec2f& p, fl
 	return u >= 0 && u <= 1 && v >= 0 && v <= 1 && u + v <= 1;
 }
 
-void Rasterizer::triangle(const vertex& vert1, const vertex& vert2, const vertex& vert3, TGAImage& img)
+void Rasterizer::triangle(const vout& vert1, const vout& vert2, const vout& vert3)
 {
 	// 如果这里用vecf，会导致因为精度问题，有的边界上像素不被两边三角形覆盖
-	Vec2i v1(vert1.position.x * width, vert1.position.y * height);
-	Vec2i v2(vert2.position.x * width, vert2.position.y * height);
-	Vec2i v3(vert3.position.x * width, vert3.position.y * height);
+	Vec2i v1 = Vec2i((vert1.position.x + 1) * .5f * width, (vert1.position.y + 1) * .5f * height);
+	Vec2i v2 = Vec2i((vert2.position.x + 1) * .5f * width, (vert2.position.y + 1) * .5f * height);
+	Vec2i v3 = Vec2i((vert3.position.x + 1) * .5f * width, (vert3.position.y + 1) * .5f * height);
+
+	Vec2i e12 = v2 - v1;
+	Vec2i e23 = v3 - v2;
+	if (cross(e12, e23) < 0)
+		return;
+	//drawTriangleNum++;
 
 	if (v1.x == v2.x && v1.x == v3.x)
 		return;
@@ -36,7 +73,7 @@ void Rasterizer::triangle(const vertex& vert1, const vertex& vert2, const vertex
 		for (int x = minx; x < maxx; x++) {
 			Vec2f p(x, y);
 			float u, v;
-			Vec3f colorVec;
+			Vec4f colorVec;
 			if (useMSAA) {
 				bool sample = false;
 				for (int i = 0; i < 4; i++) {
@@ -46,9 +83,10 @@ void Rasterizer::triangle(const vertex& vert1, const vertex& vert2, const vertex
 						Vec2f uv = u * vert1.uv + v * vert2.uv + w * vert3.uv;
 						Vec3f n = u * vert1.normal + v * vert2.normal + w * vert3.normal;
 						if (!sample) {
-							colorVec = shaderBaseLight(pos, uv, n) * 255;
+							colorVec = shader->fragment(vout(pos, uv, n)) * 255;
 							sample = true;
 						}
+
 						if (pos.z > 0 && pos.z < zBuffer[(x + y * width) * 4 + i]) {
 							frameBuffer[(x + y * width) * 4 + i] = colorVec;
 							zBuffer[(x + y * width) * 4 + i] = pos.z;
@@ -59,7 +97,7 @@ void Rasterizer::triangle(const vertex& vert1, const vertex& vert2, const vertex
 			else {
 				if (barycentric(params, v3, p, u, v)) {
 					float w = 1 - u - v;
-					colorVec = u * vert1.normal + v * vert2.normal + w * vert3.normal;
+					colorVec = Vec4f(u * vert1.normal + v * vert2.normal + w * vert3.normal, 1);
 					frameBuffer[x + y * width] = colorVec;
 				}
 			}
@@ -72,15 +110,26 @@ void Rasterizer::writeImg(TGAImage& img)
 	for (int y = 0; y < height; y++) {
 		for (int x = 0; x < width; x++) {
 			if (useMSAA) {
-				Vec3f colorVec;
+				Vec4f colorVec;
 				for (int i = 0; i < 4; i++) {
 					colorVec += 0.25 * frameBuffer[(y * width + x) * 4 + i];
 				}
-				img.set(x, y, TGAColor(colorVec, 255));
+				img.set(x, y, TGAColor(colorVec));
 			}
 			else {
-				img.set(x, y, TGAColor(frameBuffer[y * width + x], 255));
+				img.set(x, y, TGAColor(frameBuffer[y * width + x]));
 			}
 		}
 	}
 }
+
+
+//int Rasterizer::addTexture(const char* filename)
+//{
+//	int id = textures.size();
+//	TGAImage* img = new TGAImage();
+//	img->read_tga_file(filename);
+//	textures.emplace_back(img);
+//
+//	return id;
+//}

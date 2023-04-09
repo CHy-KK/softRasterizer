@@ -52,11 +52,11 @@ struct TGAColor {
 	}
 
 	template<typename T>
-	TGAColor(const Vec3<T>& color, unsigned char A) {
+	TGAColor(const Vec4<T>& color) {
 		r = clamp(color.x, 0, 255);
 		g = clamp(color.y, 0, 255);
 		b = clamp(color.z, 0, 255);
-		a = A;
+		a = clamp(color.w, 0, 255);
 	}
 
 	TGAColor& operator =(const TGAColor& c) {
@@ -65,6 +65,10 @@ struct TGAColor {
 			val = c.val;
 		}
 		return *this;
+	}
+
+	Vec4f toVec4f() {
+		return Vec4f(r / 255.f, g / 255.f, b / 255.f, a / 255.f);
 	}
 };
 
@@ -92,6 +96,7 @@ public:
 	bool flip_vertically();
 	bool scale(int w, int h);
 	TGAColor get(int x, int y);
+	Vec4f sample(Vec2f uv);
 	bool set(int x, int y, TGAColor c);
 	~TGAImage();
 	TGAImage& operator =(const TGAImage& img);

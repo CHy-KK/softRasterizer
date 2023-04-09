@@ -142,6 +142,7 @@ public:
 	Vec4(const T v[4]) : raw{ v.x, v.y, v.z, v.w } {}
 	Vec4(const Vec2<T> v, T z, T w) : raw{ v.x, v.y, z, w } {}
 	Vec4(const Vec3<T> v, T w) : raw{ v.x, v.y, v.z, w } {}
+	//Vec4(const TGAColor& col) : raw{ col.r, col.g, col.b, col.a }
 
 
 	Vec4<T> operator-() const { return Vec4<T>(-x, -y, -z, -w); }
@@ -200,6 +201,7 @@ typedef Vec3<int> Vec3i;
 typedef Vec3<float> Vec3f;
 typedef Vec2<int> Vec2i;
 typedef Vec2<float> Vec2f;
+const Vec2f Vec2f_one(1.f, 1.f);
 const Vec3f Vec3f_one(1.f, 1.f, 1.f);
 const Vec4f Vec4f_one(1.f, 1.f, 1.f, 1.f);
 
