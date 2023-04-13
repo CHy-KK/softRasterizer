@@ -9,7 +9,7 @@
 #include <time.h>
 #include "tgaimage.h"
 #include "Rasterizer.h"
-#include "BaseWindow.h"
+#include "Win32/BaseWindow.h"
 
 void DrawCall(HWND hwnd) {
 	//consoleLog("render");

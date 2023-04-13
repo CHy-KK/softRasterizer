@@ -1,4 +1,4 @@
-#include "Win32/BaseWindow.h"
+#include "BaseWindow.h"
 LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
