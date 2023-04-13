@@ -16,7 +16,7 @@ public:
     void rotate(Vec3f r) { eulaAngle += r; }
     void scale(float s) { scaleSize = s; }
 
-	Matrix rotationMatrix() {
+	Matrix rotationMatrix() const {
 		float alpha = degrees_to_radians(eulaAngle.x);
 		float beta = degrees_to_radians(eulaAngle.y);
 		float gamma = degrees_to_radians(eulaAngle.z);
@@ -42,7 +42,7 @@ public:
 		return rz * ry * rx;
 	}
 
-    virtual Matrix transformMatrix() {
+    virtual Matrix transformMatrix() const {
 
 		Matrix scale = Matrix::identity(3) * scaleSize;
 

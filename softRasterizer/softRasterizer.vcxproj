@@ -86,11 +86,11 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseWindow.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="mathSR.h" />
@@ -150,6 +151,7 @@
     <ClInclude Include="Vec.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseWindow.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
@@ -160,6 +162,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="tgaimage.cpp" />
     <ClCompile Include="Vec.cpp" />
+    <ClCompile Include="winMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

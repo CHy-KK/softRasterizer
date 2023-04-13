@@ -5,10 +5,14 @@ Rasterizer* Rasterizer::renderer = nullptr;
 Rasterizer::Rasterizer(int w, int h, bool msaa) :width(w), height(h), useMSAA(msaa) {
 	if (useMSAA) {
 		frameBuffer.resize(width * height * 4, Vec4f(0, 0, 0, 0));
+		//frameBuffer = new Vec4f[width * height * 4];
+		screenBuffer = new unsigned char[width * height * 4];
 		zBuffer.resize(width * height * 4, 1);
 	}
 	else {
 		frameBuffer.resize(width * height, Vec4f(0, 0, 0, 0));
+		//frameBuffer = new Vec4f[width * height];
+		screenBuffer = new unsigned char[width * height * 4];
 		zBuffer.resize(width * height, 1);
 	}
 }
@@ -20,13 +24,70 @@ Rasterizer* Rasterizer::GetInstance(int w, int h, bool msaa)
 	return renderer;
 }
 
-void Rasterizer::Render(const Model& m)
+Rasterizer* Rasterizer::GetInstance()
 {
-	for (int i = 0; i < m.nfaces(); i++) {
-		auto f = m.face(i);
-		vout v1 = shader->vertex(vin(Vec4f(m.vert(f[0].x), 1), m.uv(f[0].y), m.normal(f[0].z)));
-		vout v2 = shader->vertex(vin(Vec4f(m.vert(f[1].x), 1), m.uv(f[1].y), m.normal(f[1].z)));
-		vout v3 = shader->vertex(vin(Vec4f(m.vert(f[2].x), 1), m.uv(f[2].y), m.normal(f[2].z)));
+	assert(renderer != nullptr);
+	return renderer;
+}
+
+unsigned char* Rasterizer::Draw()
+{
+	extern Vec3f lightDir;
+	extern Matrix transformWorldToView;
+	extern Matrix transformViewToClip;
+	lightDir = Vec3f(0.f, 0.f, 1.f);
+
+	transformWorldToView = camera->transformMatrix();
+	transformViewToClip = camera->perspectiveMatrix();
+	for (auto & m: models)
+		renderer->Render(m);
+
+	if (useMSAA) {
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				Vec4f colorVec;
+				for (int i = 0; i < 4; i++) {
+					colorVec += 0.25 * frameBuffer[(y * width + x) * 4 + i];
+					frameBuffer[(y * width + x) * 4 + i] = Vec4f(0, 0, 0, 0);
+					zBuffer[(y * width + x) * 4 + i] = 1;
+				}
+				screenBuffer[(y * width + x) * 4 + 0] = clamp(colorVec.z, 0, 255);
+				screenBuffer[(y * width + x) * 4 + 1] = clamp(colorVec.y, 0, 255);
+				screenBuffer[(y * width + x) * 4 + 2] = clamp(colorVec.x, 0, 255);
+				screenBuffer[(y * width + x) * 4 + 3] = 0;
+			}
+		}
+	}
+	else {
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				Vec4f colorVec = frameBuffer[y * width + x];
+				frameBuffer[y * width + x] = Vec4f(0, 0, 0, 0);
+				zBuffer[y * width + x] = 1;
+				screenBuffer[(y * width + x) * 4 + 0] = clamp(colorVec.z, 0, 255);
+				screenBuffer[(y * width + x) * 4 + 1] = clamp(colorVec.y, 0, 255);
+				screenBuffer[(y * width + x) * 4 + 2] = clamp(colorVec.x, 0, 255);
+				screenBuffer[(y * width + x) * 4 + 3] = 0;
+			}
+		}
+	}
+	return screenBuffer;
+}
+
+void Rasterizer::Render(shared_ptr<Model> m)
+{
+	// 这里的模型变化矩阵后面最好改成shader内置变量，因为如果使用多线程的话多个模型并行渲染 不可能都使用同一个模型变换
+	// 当然多个模型使用同一个光照方向、View和projection矩阵应该是ok的
+	extern Matrix transformObjToWorld;
+	extern Matrix transformObjToWorldNormal;
+	transformObjToWorld = m->transformMatrix();	
+	// 法线旋转矩阵按道理是用mat3(model.inverse().transpose())，是为了消除缩放带来的影响，但实际上和直接用rotation结果是一致的
+	transformObjToWorldNormal = m->rotationMatrix();
+	for (int i = 0; i < m->nfaces(); i++) {
+		auto f = m->face(i);
+		vout v1 = shader->vertex(vin(Vec4f(m->vert(f[0].x), 1), m->uv(f[0].y), m->normal(f[0].z)));
+		vout v2 = shader->vertex(vin(Vec4f(m->vert(f[1].x), 1), m->uv(f[1].y), m->normal(f[1].z)));
+		vout v3 = shader->vertex(vin(Vec4f(m->vert(f[2].x), 1), m->uv(f[2].y), m->normal(f[2].z)));
 		renderer->triangle(v1, v2, v3);
 	}
 }
