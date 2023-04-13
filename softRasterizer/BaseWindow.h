@@ -6,7 +6,8 @@
 #include <iostream>
 #include <windows.h>
 #include "Rasterizer.h"
-
+#include <time.h>
+#include <string>
 
 template<class DERIVED_TYPE>
 class BaseWindow
@@ -74,6 +75,7 @@ protected:
 class MainWindow : public BaseWindow<MainWindow>
 {
 public:
+	time_t lastT = 0;
 	PCWSTR ClassName() const { return L"Sample Window Class"; }
 	LRESULT HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam);
 };
@@ -91,7 +93,7 @@ inline void OnSize(HWND hwnd, UINT flag, int width, int height)
 {
 }
 
-void Draw(HDC hdc, int width, int height);
+void Draw(HDC hdc);
 
 #endif // !_BASE_WINDOW_H_
 

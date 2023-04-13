@@ -6,15 +6,15 @@
 // 解决方案窗口，右击项目，选择属性->配置->链接->系统，将子系统的控制台(/ SUBSYSTEM:CONSOLE)设置成窗口(/ SUBSYSTEM:WINDOWS)
 // 选择属性->配置->C/C++ -> 预处理器，将预处理器定义中的_CONSOLE设置成_CONSOLE_WINDOWS
 
-#include <time.h>
 #include "tgaimage.h"
 #include "Rasterizer.h"
-#include "Win32/BaseWindow.h"
+#include "BaseWindow.h"
 
 void DrawCall(HWND hwnd) {
 	//consoleLog("render");
 	RECT rc;
 	GetClientRect(hwnd, &rc);
+	//rc.right = 100;
 	InvalidateRect(hwnd, &rc, FALSE);
 }
 
@@ -22,8 +22,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 	/***** Initialize Renderer /*****/
 
-	const int Width = 500;
-	const int Height = 500;
+	const int Width = 200;
+	const int Height = 200;
 	const bool useMSAA = true;
 
 	// Camera Settings

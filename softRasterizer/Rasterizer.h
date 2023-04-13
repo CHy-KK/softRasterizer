@@ -49,6 +49,9 @@ public:
 	Vec3f shaderNormal(Vec3f pos, Vec2f uv, Vec3f normal) { return normal; }	// shader 里面最好还是传值，因为可能修改？
 	void writeImg(TGAImage& img);
 
+	int Width() const { return width; }
+	int Height() const { return height; }
+
 	//int addTexture(const char* filename);
 
 	~Rasterizer() {
