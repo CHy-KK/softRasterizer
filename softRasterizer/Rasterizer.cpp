@@ -5,14 +5,12 @@ Rasterizer* Rasterizer::renderer = nullptr;
 Rasterizer::Rasterizer(int w, int h, bool msaa) :width(w), height(h), useMSAA(msaa) {
 	if (useMSAA) {
 		frameBuffer.resize(width * height * 4, Vec4f(0, 0, 0, 0));
-		//frameBuffer = new Vec4f[width * height * 4];
 		screenBuffer = new unsigned char[width * height * 4];
 		zBuffer = new float[width * height * 4];
 		std::fill_n(zBuffer, width * height * 4, 1.f);
 	}
 	else {
 		frameBuffer.resize(width * height, Vec4f(0, 0, 0, 0));
-		//frameBuffer = new Vec4f[width * height];
 		screenBuffer = new unsigned char[width * height * 4];
 		zBuffer = new float[width * height];
 		std::fill_n(zBuffer, width * height, 1.f);
