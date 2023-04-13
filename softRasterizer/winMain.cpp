@@ -43,10 +43,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	renderer->models.emplace_back(head);
 
 	shared_ptr<Shader> headShader(new BlinnPhong(texHeadDiffuse));
-	renderer->setShader(headShader);
-
-	//head.scale(2.f);
-	//head.rotate(Vec3f(0, 90, 0));
+	head->setShader(headShader);
 	
 	/***** Create Window /*****/
 	const wchar_t CLASS_NAME[] = L"Sample Window Class";

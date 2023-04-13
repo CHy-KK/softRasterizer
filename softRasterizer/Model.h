@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include "GameObject.h"
+#include "Shader.h"
 using namespace std;
 
 
@@ -18,7 +19,7 @@ private:
     vector<Vec3f> normals;
     vector<Vec2f> uvs;
 	vector<vector<Vec3i>> faces;    // faces 存储每个三角面的三个顶点，每个顶点使用一个vec3i来表示使用的：模型坐标index/uv坐标index/法线index
-    
+    shared_ptr<Shader> shader;
 
 public:
 	Model(const char* filename) {
@@ -62,6 +63,8 @@ public:
     Vec2f uv(int i) const { return uvs[i]; }
     Vec3f normal(int i) const { return normals[i]; }
     vector<Vec3i> face(int i) const { return faces[i]; }
+    void setShader(shared_ptr<Shader> s) { shader = s; }
+    shared_ptr<Shader> getShader() const { return shader; }
 
     //virtual Matrix transformMatrix();
     

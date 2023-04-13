@@ -6,8 +6,6 @@
 #include "tgaimage.h"
 using std::shared_ptr;
 
-extern Matrix transformObjToWorld;
-extern Matrix transformObjToWorldNormal;
 extern Matrix transformWorldToView;
 extern Matrix transformViewToClip;
 extern Vec3f lightDir;
@@ -35,10 +33,14 @@ struct vout
 
 class Shader
 {
+private:
+
 public:
 	Shader() {}
 	virtual vout vertex(vin i) = 0;
 	virtual Vec4f fragment(vout i) = 0;
+	Matrix transformObjToWorld;
+	Matrix transformObjToWorldNormal;
 };
 
 class BlinnPhong :public Shader {

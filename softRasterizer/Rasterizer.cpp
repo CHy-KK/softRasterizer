@@ -17,8 +17,6 @@ Rasterizer::Rasterizer(int w, int h, bool msaa) :width(w), height(h), useMSAA(ms
 		zBuffer = new float[width * height];
 		std::fill_n(zBuffer, width * height, 1.f);
 	}
-	//for (int i = 0; i < width * height; i++)
-	//	zBuffer[i] = 1.f;
 }
 
 Rasterizer* Rasterizer::GetInstance(int w, int h, bool msaa)
@@ -43,8 +41,10 @@ unsigned char* Rasterizer::Draw()
 
 	transformWorldToView = camera->transformMatrix();
 	transformViewToClip = camera->perspectiveMatrix();
-	for (auto & m: models)
+	for (auto& m : models) {
+		// TODO:不同模型如何切换shader？
 		renderer->Render(m);
+	}
 
 	if (useMSAA) {
 		for (int y = 0; y < height; y++) {
@@ -84,11 +84,10 @@ void Rasterizer::Render(shared_ptr<Model> m)
 {
 	// 这里的模型变化矩阵后面最好改成shader内置变量，因为如果使用多线程的话多个模型并行渲染 不可能都使用同一个模型变换
 	// 当然多个模型使用同一个光照方向、View和projection矩阵应该是ok的
-	extern Matrix transformObjToWorld;
-	extern Matrix transformObjToWorldNormal;
-	transformObjToWorld = m->transformMatrix();	
+	shader = m->getShader();
+	shader->transformObjToWorld = m->transformMatrix();	
 	// 法线旋转矩阵按道理是用mat3(model.inverse().transpose())，是为了消除缩放带来的影响，但实际上和直接用rotation结果是一致的
-	transformObjToWorldNormal = m->rotationMatrix();
+	shader->transformObjToWorldNormal = m->rotationMatrix();
 	for (int i = 0; i < m->nfaces(); i++) {
 		auto f = m->face(i);
 		vout v1 = shader->vertex(vin(Vec4f(m->vert(f[0].x), 1), m->uv(f[0].y), m->normal(f[0].z)));
