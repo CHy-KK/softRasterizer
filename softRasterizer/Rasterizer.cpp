@@ -7,14 +7,18 @@ Rasterizer::Rasterizer(int w, int h, bool msaa) :width(w), height(h), useMSAA(ms
 		frameBuffer.resize(width * height * 4, Vec4f(0, 0, 0, 0));
 		//frameBuffer = new Vec4f[width * height * 4];
 		screenBuffer = new unsigned char[width * height * 4];
-		zBuffer.resize(width * height * 4, 1);
+		zBuffer = new float[width * height * 4];
+		std::fill_n(zBuffer, width * height * 4, 1.f);
 	}
 	else {
 		frameBuffer.resize(width * height, Vec4f(0, 0, 0, 0));
 		//frameBuffer = new Vec4f[width * height];
 		screenBuffer = new unsigned char[width * height * 4];
-		zBuffer.resize(width * height, 1);
+		zBuffer = new float[width * height];
+		std::fill_n(zBuffer, width * height, 1.f);
 	}
+	//for (int i = 0; i < width * height; i++)
+	//	zBuffer[i] = 1.f;
 }
 
 Rasterizer* Rasterizer::GetInstance(int w, int h, bool msaa)
@@ -48,6 +52,7 @@ unsigned char* Rasterizer::Draw()
 				Vec4f colorVec;
 				for (int i = 0; i < 4; i++) {
 					colorVec += 0.25 * frameBuffer[(y * width + x) * 4 + i];
+					// Ë³±ãÇå¿Õ»º´æ£¬·ñÔò»áÓÐÑÕÉ«²ÐÁô
 					frameBuffer[(y * width + x) * 4 + i] = Vec4f(0, 0, 0, 0);
 					zBuffer[(y * width + x) * 4 + i] = 1;
 				}
@@ -62,6 +67,7 @@ unsigned char* Rasterizer::Draw()
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				Vec4f colorVec = frameBuffer[y * width + x];
+				// Ë³±ãÇå¿Õ»º´æ£¬·ñÔò»áÓÐÑÕÉ«²ÐÁô
 				frameBuffer[y * width + x] = Vec4f(0, 0, 0, 0);
 				zBuffer[y * width + x] = 1;
 				screenBuffer[(y * width + x) * 4 + 0] = clamp(colorVec.z, 0, 255);

@@ -22,8 +22,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 	/***** Initialize Renderer /*****/
 
-	const int Width = 200;
-	const int Height = 200;
+	const int Width = 400;
+	const int Height = 400;
 	const bool useMSAA = true;
 
 	// Camera Settings
@@ -67,8 +67,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	while (true)
 	{
 		cur = clock();
-		angle += float(cur - last) / 1000.f * 5.f;
-		angle %= 360;
+		angle = float(cur - last) / 1000.f * 20.f;
+		consoleLog(cur - last);
 		last = cur;
 		head->rotate(Vec3f(0, angle, 0));
 		// 如果消息队列中存在WM_PAINT那么就正常绘制，队列为空则调用InvalidateRect加入一个WM_PAINT消息

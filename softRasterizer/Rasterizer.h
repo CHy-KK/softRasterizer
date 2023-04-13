@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include "Model.h"
 #include "Camera.h"
+#include <algorithm> 
 
 using std::vector;
 using std::min;
@@ -18,7 +19,8 @@ private:
 	bool useMSAA;
 	vector<Vec4f> frameBuffer;
 	unsigned char* screenBuffer;
-	vector<float> zBuffer;
+	float* zBuffer;
+	//vector<float> zBuffer;
 	vector<Vec2f> x4MSAAoffset{ Vec2f(.25f, .25f), Vec2f(.25f, .75f), Vec2f(.75f, .25f), Vec2f(.75f, .75f) };
 
 	// 是否使用textures列表取决于想把textures保存在Rasterizer类中还是main函数中，原理上来说没区别，且多此一举
@@ -56,6 +58,7 @@ public:
 
 	~Rasterizer() {
 		delete[] screenBuffer;
+		delete[] zBuffer;
 		// TODO:后面把framebuffer和depthbuffer改成指针动态分配内存，而不是使用vector
 	}
 };                                                        

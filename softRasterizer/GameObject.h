@@ -13,7 +13,12 @@ public:
     GameObject() {}
 
     void translate(Vec3f offset) { worldPos += offset; }
-    void rotate(Vec3f r) { eulaAngle += r; }
+    void rotate(Vec3f r) { 
+		eulaAngle += r; 
+		eulaAngle.x = fmod(eulaAngle.x, 360);
+		eulaAngle.y = fmod(eulaAngle.y, 360);
+		eulaAngle.z = fmod(eulaAngle.z, 360);
+	}
     void scale(float s) { scaleSize = s; }
 
 	Matrix rotationMatrix() const {
