@@ -146,6 +146,7 @@
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Rasterizer.h" />
+    <ClInclude Include="RasterizerMT.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="tgaimage.h" />
     <ClInclude Include="Vec.h" />
@@ -159,6 +160,7 @@
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Rasterizer.cpp" />
+    <ClCompile Include="RasterizerMT.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="tgaimage.cpp" />
     <ClCompile Include="Vec.cpp" />

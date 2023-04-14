@@ -17,11 +17,11 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		PAINTSTRUCT ps;		// ps.rcPaint包含此次绘制的区域大小，top和left默认为0，bottom和right默认为窗口height和width，可以修改这几个参数调整绘制区域
 		HDC hdc = BeginPaint(m_hwnd, &ps);	// 开始绘制
 
+		lastT = clock();
 		Draw(hdc);
-
 		time_t curT = clock();
-		int fps = 1000 / (curT - lastT);
-		lastT = curT;
+		float fps = 1000.f / (curT - lastT);
+
 		DrawText(hdc, to_wstring(fps).c_str(), -1, &ps.rcPaint, DT_CENTER);
 
 		EndPaint(m_hwnd, &ps);	// 结束绘制
@@ -42,8 +42,8 @@ LRESULT MainWindow::HandleMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 void Draw(HDC hdc)
 {
-	int width = Rasterizer::GetInstance()->Width();
-	int height = Rasterizer::GetInstance()->Height();
+	int width = RasterizerMT::GetInstance()->Width();
+	int height = RasterizerMT::GetInstance()->Height();
 	BITMAPINFO bitmapInfo;
 	ZeroMemory(&bitmapInfo, sizeof(BITMAPINFO));
 	bitmapInfo.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -55,7 +55,7 @@ void Draw(HDC hdc)
 
 	// 使用双缓冲机制，先将渲染结果绘制到backBuffer中
 	// 注意WIN32中BITMAPINFO的rgbquad颜色格式为blue green red，和一般的rgb是相反的
-	unsigned char* backBuffer = Rasterizer::GetInstance()->Draw();
+	unsigned char* backBuffer = RasterizerMT::GetInstance()->Draw();
 
 	// 绘制到屏幕上
 	StretchDIBits(hdc,

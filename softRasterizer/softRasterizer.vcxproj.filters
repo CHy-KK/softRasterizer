@@ -45,6 +45,9 @@
     <ClInclude Include="BaseWindow.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="RasterizerMT.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tgaimage.cpp">
@@ -81,6 +84,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="winMain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="RasterizerMT.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

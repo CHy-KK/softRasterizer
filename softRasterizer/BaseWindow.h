@@ -6,6 +6,7 @@
 #include <iostream>
 #include <windows.h>
 #include "Rasterizer.h"
+#include "RasterizerMT.h"
 #include <time.h>
 #include <string>
 

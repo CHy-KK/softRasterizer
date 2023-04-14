@@ -8,6 +8,7 @@
 
 #include "tgaimage.h"
 #include "Rasterizer.h"
+#include "RasterizerMT.h"
 #include "BaseWindow.h"
 
 void DrawCall(HWND hwnd) {
@@ -22,8 +23,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 
 	/***** Initialize Renderer /*****/
 
-	const int Width = 400;
-	const int Height = 400;
+	const int Width = 200;
+	const int Height = 200;
 	const bool useMSAA = true;
 
 	// Camera Settings
@@ -33,9 +34,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	const float fov = 40.f;
 
 
-	Rasterizer* renderer = Rasterizer::GetInstance(Width, Height, useMSAA);
+	RasterizerMT* renderer = RasterizerMT::GetInstance(Width, Height, useMSAA);
 	shared_ptr<Camera> camera = make_shared<Camera>(cameraPos, lookAt, fov, float(Width) / Height, 0.1f, 100.f);
 	renderer->camera = camera;
+	// TODO:异步加载纹理，在使用时添加，而不是在最开始就将所有纹理加入内存
 	shared_ptr<TGAImage> texHeadDiffuse(new TGAImage());
 	texHeadDiffuse->read_tga_file("african_head_diffuse.tga");
 
@@ -65,7 +67,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	{
 		cur = clock();
 		angle = float(cur - last) / 1000.f * 20.f;
-		consoleLog(cur - last);
 		last = cur;
 		head->rotate(Vec3f(0, angle, 0));
 		// 如果消息队列中存在WM_PAINT那么就正常绘制，队列为空则调用InvalidateRect加入一个WM_PAINT消息

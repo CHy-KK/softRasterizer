@@ -40,7 +40,6 @@ unsigned char* Rasterizer::Draw()
 	transformWorldToView = camera->transformMatrix();
 	transformViewToClip = camera->perspectiveMatrix();
 	for (auto& m : models) {
-		// TODO:不同模型如何切换shader？
 		renderer->Render(m);
 	}
 
